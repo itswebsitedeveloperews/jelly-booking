@@ -1,0 +1,5 @@
+# This installation is for this computer only.
+Require local
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>

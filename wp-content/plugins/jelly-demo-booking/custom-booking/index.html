@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Book an appointment | Live data preview</title>
+  <link rel="stylesheet" href="style.css?v=0.4.22">
+  <script src="app.js?v=0.4.22" defer></script>
+</head>
+<body>
+<!-- booking:start -->
+<!-- Edit text, layout and classes freely. Keep element IDs and input names for the booking logic. -->
+<div class="jdb">
+  <p class="jdb-notice" id="jdb-mode-notice">Live Jelly data · Preview only. Patient submissions, real bookings and payments are disabled.</p>
+  <header><div class="jdb-brand-block"><a class="jdb-brand" href="./">The ADHD Centre</a><span class="jdb-badge" id="jdb-source">LIVE DATA · PREVIEW</span></div><ol class="jdb-steps" aria-label="Booking progress"><li aria-current="step"><span>1</span>Location</li><li><span>2</span>Assessment</li><li><span>3</span>Time</li><li><span>4</span>Details</li><li><span>5</span>Finish</li></ol></header>
+  <h1 class="jdb-sr-only">Book an assessment</h1>
+  <div class="jdb-layout">
+    <main>
+      <div id="jdb-error" role="alert"></div><div id="jdb-status" role="status" aria-live="polite"></div><button type="button" class="jdb-back" id="jdb-retry" hidden>Try again</button>
+      <form id="jdb-form" novalidate>
+        <section data-step="0">
+          <h2>Book an assessment</h2><p class="jdb-section-intro">Find the right appointment for you or your child.</p>
+          <div class="jdb-row">
+            <div><p class="jdb-field-title" id="jdb-age-title">Who is this for?</p><div id="jdb-age-choices" class="jdb-choice-row" role="group" aria-labelledby="jdb-age-title"></div><select id="jdb-age-filter" hidden aria-label="Adult or child"><option value="">All ages</option><option value="adult">Adult</option><option value="child">Child</option></select></div>
+            <div><p class="jdb-field-title" id="jdb-format-title">Appointment format</p><div id="jdb-format-choices" class="jdb-choice-row" role="group" aria-labelledby="jdb-format-title"></div><select id="jdb-format-filter" hidden aria-label="Appointment format"><option value="">All formats</option><option value="online">Online</option><option value="in-person">In-person</option></select></div>
+          </div>
+          <div class="jdb-location-filter-row">
+          <div id="jdb-clinic-filter-wrap" hidden>
+            <label for="jdb-clinic-filter">Clinic location</label><select id="jdb-clinic-filter" disabled><option value="">All clinics</option></select>
+          </div>
+          <div class="jdb-location-search-wrap"><label for="jdb-location-search">Find a location or appointment option</label><input id="jdb-location-search" type="search" placeholder="Search online, London, Manchester…" autocomplete="off"></div>
+          </div>
+          <p id="jdb-location-count" class="jdb-help" role="status" aria-live="polite"></p>
+          <p id="jdb-no-locations" class="jdb-help" hidden>No locations match these filters. Try All ages, All clinics, All formats, or change your search.</p>
+          <div id="jdb-locations" class="jdb-options"></div>
+        </section>
+        <section data-step="1" hidden>
+          <h2>Choose your assessment</h2>
+          <p id="jdb-service-scope" class="jdb-help" role="status"></p><h3 id="jdb-service-title">Type of assessment</h3><div id="jdb-service-cards" class="jdb-service-cards" role="group" aria-labelledby="jdb-service-title"></div><select id="jdb-service" name="service" required hidden aria-label="Service"><option value="">Choose a service</option></select><p id="jdb-service-info" class="jdb-help"></p>
+          <label for="jdb-clinician-search">Doctor / clinician</label>
+          <div id="jdb-clinician-picker" class="jdb-clinician-picker"><input id="jdb-clinician-search" type="text" role="combobox" aria-autocomplete="list" aria-controls="jdb-clinician-results" aria-expanded="false" autocomplete="off" placeholder="Choose or search for a clinician"><div id="jdb-clinician-results" role="listbox" aria-label="Clinicians" hidden></div><p id="jdb-clinician-search-status" class="jdb-sr-only" role="status"></p></div>
+          <select id="jdb-clinician" name="clinician" required hidden aria-label="Selected clinician"><option value="">Choose a clinician</option></select>
+          <div id="jdb-clinician-card-assessment" class="jdb-clinician-card" hidden></div>
+        </section>
+        <section data-step="2" hidden>
+          <h2>Pick a time</h2><p class="jdb-section-intro">Choose an available date and time with your selected clinician.</p>
+          <div id="jdb-clinician-card-time" class="jdb-clinician-card" hidden></div>
+          <div class="jdb-surface jdb-time-surface"><div class="jdb-row">
+            <div><label for="jdb-time-filter">Time preference</label><select id="jdb-time-filter"><option value="">Any time</option><option value="morning">Morning · before 12:00</option><option value="afternoon">Afternoon · 12:00–16:59</option><option value="evening">Evening · from 17:00</option></select></div>
+            <div><label for="jdb-day-filter">Day preference</label><select id="jdb-day-filter"><option value="">Any day</option><option value="weekdays">Weekdays · Monday–Friday</option><option value="weekends">Weekends · Saturday–Sunday</option></select></div>
+          </div>
+          <p class="jdb-help">Preferences apply to available dates and times in the clinic’s timezone.</p><p id="jdb-availability-note" class="jdb-help"></p>
+          <label id="jdb-date-label" for="jdb-date-toggle">Available dates from Jelly</label>
+          <div class="jdb-date-picker" id="jdb-date-picker">
+            <button type="button" id="jdb-date-toggle" aria-expanded="false" aria-controls="jdb-date-popup" aria-labelledby="jdb-date-label jdb-date-toggle">Choose an available date</button>
+            <div id="jdb-date-popup" class="jdb-date-popup" role="group" aria-label="Available dates" hidden></div>
+          </div>
+          <select id="jdb-date-list" hidden aria-hidden="true" tabindex="-1"><option value="">Loading available dates…</option></select>
+          <label for="jdb-date">Or choose a date directly</label><input id="jdb-date" name="date" type="date" required aria-describedby="jdb-availability-note">
+          <p class="jdb-help">Times shown in <span id="jdb-timezone">Europe/London</span>. Choosing a time does not reserve it.</p>
+          </div>
+          <fieldset class="jdb-surface jdb-times-card"><legend>Available times</legend><div id="jdb-slots">Choose a date to see available times.</div></fieldset>
+        </section>
+        <section data-step="3" hidden>
+          <h2>Your details</h2><div id="jdb-review-details"></div>
+          <p class="jdb-help" id="jdb-patient-notice">Preview only: use fictional details to check the form. Nothing entered below is sent while submissions are disabled.</p>
+          <label class="jdb-check"><input type="checkbox" id="jdb-existing" name="existing"> I already have a patient portal account with this clinic.</label>
+          <div class="jdb-surface jdb-details-card"><h3>Patient details</h3>
+          <div class="jdb-row"><div><label for="jdb-first">First name</label><input id="jdb-first" name="firstName" maxlength="80" autocomplete="off" required></div><div><label for="jdb-last">Last name</label><input id="jdb-last" name="lastName" maxlength="80" autocomplete="off" required></div></div>
+          <label for="jdb-email">Email address</label><input id="jdb-email" type="email" name="email" maxlength="50" autocomplete="off" required>
+          <label for="jdb-mobile">Mobile number (optional)</label><input id="jdb-mobile" type="tel" name="mobile" maxlength="20" autocomplete="off">
+          <label for="jdb-dob">Date of birth</label><input id="jdb-dob" type="date" name="dob" min="1900-01-01" required>
+          <div id="jdb-portal" hidden><label for="jdb-portal-password">Jelly patient portal password</label><input id="jdb-portal-password" name="portalPassword" type="password" maxlength="30" autocomplete="off" disabled><p class="jdb-help">Patient verification is disabled in preview mode. Do not enter a real password.</p></div>
+          </div>
+          <p class="jdb-notice">Stripe sandbox: Secure payment loads a £1 GBP test card form below. Use fictional details and test cards only. No real charge or Jelly booking.</p><label class="jdb-check"><input name="consent" type="checkbox" required> <span id="jdb-consent-copy">I have reviewed these details and understand this is a preview. No booking will be submitted.</span></label>
+        <section id="jdb-stripe-panel" class="jdb-surface" hidden aria-labelledby="jdb-stripe-heading"><h2 id="jdb-stripe-heading">Payment details</h2><p>£1 GBP · Stripe test mode only. No real charge or Jelly booking.</p><div id="jdb-stripe-checkout"></div><button type="button" id="jdb-stripe-pay" disabled>Pay £1.00 · Test payment</button><p id="jdb-stripe-message" role="status"></p><button type="button" id="jdb-stripe-cancel" class="jdb-back">Cancel payment</button></section></section>
+        <section data-step="4" hidden tabindex="-1">
+          <div class="jdb-finish-banner"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m7.5 12 3 3 6-7"/></svg><div><p class="jdb-eyebrow" id="jdb-finish-label">PREVIEW COMPLETE</p><h2 id="jdb-finish-heading">Your review is complete.</h2>
+          <p id="jdb-reference"></p></div></div><div class="jdb-surface jdb-finish-card"><h3>Preview summary</h3><p id="jdb-finish-note">Nothing was submitted. No patient record or appointment has been created.</p><button id="jdb-again" type="button">Start again</button></div>
+        </section>
+        
+        <dialog id="jdb-profile-dialog" aria-labelledby="jdb-profile-title"><div class="jdb-profile-heading"><h2 id="jdb-profile-title">Clinician profile</h2><button type="button" id="jdb-profile-close" aria-label="Close clinician profile">Close ×</button></div><div id="jdb-profile-content"></div></dialog>
+        <dialog id="jdb-payment-dialog" aria-labelledby="jdb-payment-title">
+          <p class="jdb-eyebrow">PAYMENT SIMULATION · NO REAL CHARGE</p>
+          <h2 id="jdb-payment-title">Review your payment</h2>
+          <div class="jdb-payment-total"><p class="jdb-help">Assessment fee · preview only</p><p id="jdb-payment-amount"></p></div>
+          <p>This is a local checkout preview. No card details are collected, and no payment session or booking is created.</p>
+          <p id="jdb-payment-status" role="status" aria-live="polite"></p>
+          <div class="jdb-actions"><button type="button" id="jdb-payment-success">Simulate successful payment</button><button type="button" class="jdb-back" id="jdb-payment-fail">Simulate payment failure</button><button type="button" class="jdb-back" id="jdb-payment-cancel">Cancel preview</button></div>
+        </dialog>
+        <div class="jdb-actions" id="jdb-navigation"><button type="button" class="jdb-back" id="jdb-back" hidden>Back</button><button type="button" id="jdb-next" disabled>Continue →</button><button type="submit" id="jdb-submit" hidden>Secure payment →</button></div>
+      </form>
+    </main>
+    <aside aria-label="Booking summary"><h2>Summary</h2><p class="jdb-help">Review your choices as you go.</p><div id="jdb-summary">Your selection will appear here.</div><hr><p class="jdb-summary-note">Your appointment is not reserved or confirmed in preview mode.</p><small>Locations, services, clinicians and availability come from Jelly. Submission is currently disabled.</small></aside>
+  </div>
+</div>
+<!-- booking:end -->
+</body>
+</html>
+
